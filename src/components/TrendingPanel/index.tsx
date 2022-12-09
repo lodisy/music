@@ -33,6 +33,7 @@ const TrendingPanel: Component = () => {
   }
 
   const handleFocus = () => {
+    setExpanded(false)
     setOpen(true)
   }
 
@@ -83,6 +84,7 @@ const TrendingPanel: Component = () => {
               transition={{
                 duration: 0.8,
               }}
+              tabIndex={-1}
             >
               <Icon path={arrowLeft} width='20' />
             </Motion.button>
@@ -93,6 +95,7 @@ const TrendingPanel: Component = () => {
             placeholder='find your favorites...'
             class='bg-transparent p-2 rounded border-[1px] border-white/40' // click to open search panel
             onFocus={handleFocus}
+            tabIndex={-1}
           />
         </div>
 

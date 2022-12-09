@@ -32,7 +32,7 @@ const Navbar = () => {
           <Index each={navs}>
             {(nav, index) => (
               <li data-index={index}>
-                <A href={nav().href}>
+                <A href={nav().href} tabIndex={-1}>
                   <Icon path={nav().icon} class='w-6' />
                 </A>
               </li>
@@ -41,7 +41,7 @@ const Navbar = () => {
         </ul>
       </nav>
       <div class='grid place-items-center'>
-        <A href='/settings'>
+        <A href='/settings' tabIndex={-1}>
           <Icon path={cog} class='w-6' />
         </A>
       </div>

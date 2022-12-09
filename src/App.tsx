@@ -1,15 +1,27 @@
-import { Route, Routes } from '@solidjs/router'
+import { Route, Routes, useMatch } from '@solidjs/router'
 import clsx from 'clsx'
+import { Match, Show, Switch } from 'solid-js'
 import Navbar from './components/Navbar'
 import { MiniPlayer } from './components/Player'
+import TrendingPanel from './components/TrendingPanel'
 import Analytics from './pages/Analytics'
 import Home from './pages/Home'
 import Library from './pages/Library'
 import Settings from './pages/Settings'
 import { playerState } from './stores/usePlayerState'
+import { settings } from './stores/useSettings'
 
 function App() {
   const { status, song } = playerState
+
+  const { darkMode, enableTrendingPage } = settings
+
+  // createShortcut(['Shift', 'Meta', 'S'], () => {
+  //   alert('shortcut')
+  // })
+
+  const settingsPath = useMatch(() => '/settings')
+  const homePath = useMatch(() => '/')
 
   return (
     <div
@@ -30,6 +42,16 @@ function App() {
         </Routes>
         {status && <MiniPlayer song={song} />}
       </div>
+      <Show when={enableTrendingPage != 'none' && !Boolean(settingsPath())}>
+        <Switch>
+          <Match when={enableTrendingPage == 'all'}>
+            <TrendingPanel />
+          </Match>
+          <Match when={enableTrendingPage == 'onlyHome' && Boolean(homePath())}>
+            <TrendingPanel />
+          </Match>
+        </Switch>
+      </Show>
     </div>
   )
 }
