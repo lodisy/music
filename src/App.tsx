@@ -20,6 +20,9 @@ function App() {
       <Navbar />
       <div class='rounded-tl-2xl rounded-bl-2xl bg-white/10 backdrop-blur-sm overflow-hidden h-screen w-full'>
         <Routes>
+          {/**
+           * // todo add a bit transition time for page animation
+           */}
           <Route path='/' component={Home} />
           <Route path='/analytics' component={Analytics} />
           <Route path='/library' component={Library} />

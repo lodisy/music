@@ -5,7 +5,7 @@ import clsx from 'clsx'
 import { spring } from 'motion'
 import { Icon } from 'solid-heroicons'
 import { arrowLeft } from 'solid-heroicons/outline'
-import { Component } from 'solid-js'
+import { Component, createEffect, onCleanup } from 'solid-js'
 import 'solid-slider/slider.css'
 import SearchPanel from './SearchPanel'
 
@@ -36,9 +36,27 @@ const TrendingPanel: Component = () => {
     setOpen(true)
   }
 
+  let ref: HTMLDivElement | undefined
+
+  const handleClickOutSide = (e: MouseEvent) => {
+    if (ref && !ref.contains(e.target as Node)) {
+      // if initialized and clicked outside
+      setExpanded(false)
+    }
+    return
+  }
+
+  createEffect(() => {
+    if (expanded()) {
+      document.addEventListener('click', handleClickOutSide)
+    }
+    onCleanup(() => document.removeEventListener('click', handleClickOutSide))
+  }, [expanded()])
+
   return (
     <>
       <Motion.div
+        ref={ref}
         class={clsx(
           'absolute z-40 left-2/3 top-0 w-2/3 h-screen bg-white/20 backdrop-blur-sm rounded-tl-2xl rounded-bl-2xl p-8 flex flex-col',
           'translate-x-1/3',

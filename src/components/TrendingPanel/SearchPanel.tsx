@@ -66,22 +66,8 @@ const SearchBar: Component<{
   ref: HTMLInputElement | undefined
 }> = ({ ref }) => {
   const { searchString } = searchState
-  // press enter to search
 
-  createShortcut(
-    ['Enter'],
-    () => {
-      if (searchString) {
-        // and if focused
-        // todo send query to rust backend
-        console.log(searchString)
-      }
-    },
-    {
-      preventDefault: true,
-    }
-  )
-
+  //todo debounce
   const handleInput = (e: Event) => {
     setSearchState({
       //@ts-ignore
@@ -89,16 +75,31 @@ const SearchBar: Component<{
     })
   }
 
+  // todo debounce
+  const handleSearch = (
+    e: KeyboardEvent & {
+      currentTarget: HTMLInputElement
+      target: Element
+    }
+  ) => {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      console.log(searchString)
+    }
+  }
+
   return (
     <div class='flex gap-2 rounded-2xl py-2 px-4 justify-around w-[200px]'>
       <Icon path={magnifyingGlass} width='20' />
       <input
+        id='search'
         ref={ref}
         type='search'
         value={searchString}
         placeholder='search...'
         onChange={handleInput}
         class={clsx('bg-transparent', 'w-full', 'border-none')}
+        onKeyDown={handleSearch}
       />
     </div>
   )
