@@ -1,3 +1,4 @@
+import SearchPanel from '@/components/SearchPanel'
 import { setOpen } from '@/stores/useSearchPanel'
 import { expanded, setExpanded } from '@/stores/useTrendingPanel'
 import { Motion } from '@motionone/solid'
@@ -7,7 +8,6 @@ import { Icon } from 'solid-heroicons'
 import { arrowLeft } from 'solid-heroicons/outline'
 import { Component, createEffect, onCleanup } from 'solid-js'
 import 'solid-slider/slider.css'
-import SearchPanel from './SearchPanel'
 
 const sliders = [
   {
@@ -76,6 +76,7 @@ const TrendingPanel: Component = () => {
         <div class='flex items-center mb-4 justify-between'>
           <div class='flex'>
             <Motion.button
+              aria-label={expanded() ? 'close' : 'open'}
               onClick={handleClick}
               class='mr-4'
               animate={{
