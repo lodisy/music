@@ -1,3 +1,6 @@
+/// <reference types="vitest" />
+/// <reference types="vite/client" />
+
 import { defineConfig } from 'vite'
 import { VitePluginFonts } from 'vite-plugin-fonts'
 import solidPlugin from 'vite-plugin-solid'
@@ -32,5 +35,18 @@ export default defineConfig({
     minify: !process.env.TAURI_DEBUG ? 'esbuild' : false,
     // produce sourcemaps for debug builds
     sourcemap: !!process.env.TAURI_DEBUG,
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    transformMode: {
+      web: [/\.[jt]sx?$/],
+    },
+    setupFiles: 'node_modules/@testing-library/jest-dom/extend-expect.js',
+    deps: {
+      registerNodeLoader: true,
+    },
+    threads: false,
+    isolate: false,
   },
 })
